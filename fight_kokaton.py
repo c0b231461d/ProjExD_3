@@ -94,8 +94,8 @@ class Beam:
         ビーム画像Surfaceを生成する
         引数 bird：ビームを放つこうかとん（Birdインスタンス）
         """
-        self.img = pg.image.load(f"fig/beam.png")
-        self.rct = self.img.get_rect()
+        self.img = pg.image.load(f"fig/beam.png")  #データの読み取り
+        self.rct = self.img.get_rect()  #座標を取ってくる
         self.rct.centery = bird.rct.centery  # こうかとんの中心縦座標をビームの中心縦座標に設定
         self.rct.left = bird.rct.right  # こうかとん右座標をビーム左座標に設定
         self.vx, self.vy = +5, 0
@@ -165,6 +165,7 @@ class Explosion:
     def __init__(self, bomb:"Bomb"):
         """
         爆発画像Surfaceを生成する
+        引数:爆発する爆弾の座標を使用する
         """
         self.life = 100
         self.imgs = []
