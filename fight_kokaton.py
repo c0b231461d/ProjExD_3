@@ -3,6 +3,7 @@ import random
 import sys
 import time
 import pygame as pg
+import math
 
 
 WIDTH = 1100  # ゲームウィンドウの幅
@@ -56,6 +57,7 @@ class Bird:
         self.img = __class__.imgs[(+5, 0)]
         self.rct: pg.Rect = self.img.get_rect()
         self.rct.center = xy
+        self.dire=(5,0) #初期値の追加
 
     def change_img(self, num: int, screen: pg.Surface):
         """
@@ -71,7 +73,7 @@ class Bird:
         押下キーに応じてこうかとんを移動させる
         引数1 key_lst：押下キーの真理値リスト
         引数2 screen：画面Surface
-        """
+        """    
         sum_mv = [0, 0]
         for k, mv in __class__.delta.items():
             if key_lst[k]:
@@ -82,6 +84,7 @@ class Bird:
             self.rct.move_ip(-sum_mv[0], -sum_mv[1])
         if not (sum_mv[0] == 0 and sum_mv[1] == 0):
             self.img = __class__.imgs[tuple(sum_mv)]
+            self.dire = sum_mv
         screen.blit(self.img, self.rct)
 
 
@@ -97,8 +100,11 @@ class Beam:
         self.img = pg.image.load(f"fig/beam.png")  #データの読み取り
         self.rct = self.img.get_rect()  #座標を取ってくる
         self.rct.centery = bird.rct.centery  # こうかとんの中心縦座標をビームの中心縦座標に設定
-        self.rct.left = bird.rct.right  # こうかとん右座標をビーム左座標に設定
-        self.vx, self.vy = +5, 0
+        self.vx, self.vy = bird.dire
+        self.rct.centerx = bird.rct.centerx+bird.rct.width* self.vx / 5# こうかとん右座標をビーム左座標に設定
+        self.rct.centery = bird.rct.centery+bird.rct.height * self.vy / 5
+        theta_rotation = math.degrees(math.atan2(-self.vy, self.vx))
+        self.img = pg.transform.rotozoom(self.img, theta_rotation, 1)
 
     def update(self, screen: pg.Surface):
         """
@@ -165,7 +171,7 @@ class Explosion:
     def __init__(self, bomb:"Bomb"):
         """
         爆発画像Surfaceを生成する
-        引数:爆発する爆弾の座標を使用する
+        引数:爆発する
         """
         self.life = 100
         self.imgs = []
@@ -180,7 +186,7 @@ class Explosion:
         スコア画面の更新
         引数 screen：画面Surface
         """
-        self.img = self.img = self.imgs[(self.life//10)%2]
+        self.img = self.imgs[(self.life//10)%2]
         screen.blit(self.img, self.rct) 
         
     
