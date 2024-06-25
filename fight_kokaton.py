@@ -152,7 +152,7 @@ class Score:
         self.rct: pg.Rect = self.img.get_rect()
         self.rct.centery = (100 + (HEIGHT - 50)) // 2
         
-    def update(self, screen: pg.Surface):
+    def update(self, screen: pg.Surface): #更新
         """
         スコア画面の更新
         引数 screen：画面Surface
