@@ -166,6 +166,11 @@ def main():
                 pg.display.update()
                 time.sleep(1)
                 return
+        else:
+            bird.change_img(6, screen)
+            pg.display.update()
+            time.sleep(1)
+            return
         
         if beam != None and bomb != None:
             if bomb.rct.colliderect(beam.rct):  #bombとbeamの衝突判定
