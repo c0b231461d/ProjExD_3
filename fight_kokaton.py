@@ -156,7 +156,7 @@ class Score:
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
         self.img = self.fonto.render(f"スコア: {self.score}" , 0, (0, 0, 255))
         self.rct: pg.Rect = self.img.get_rect()
-        self.rct.centery = (100 + (HEIGHT - 50)) // 2
+        self.rct.center = 100, HEIGHT-50  #変更完了しました
         
     def update(self, screen: pg.Surface): #更新
         """
